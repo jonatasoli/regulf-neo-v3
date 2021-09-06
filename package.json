@@ -10,8 +10,17 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.2",
+    "algoliasearch": "^4.10.5",
+    "autoprefixer": "^9",
     "core-js": "^3.6.5",
+    "instantsearch.css": "^7.4.5",
+    "postcss": "^7",
+    "postcss-loader": "^6.1.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
+    "typesense-instantsearch-adapter": "^2.1.0",
     "vue": "^3.0.0",
+    "vue-instantsearch": "^4.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
@@ -35,6 +44,7 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
+    "vue-cli-plugin-tailwind": "~2.0.6",
     "vue-jest": "^5.0.0-0"
   },
   "gitHooks": {
