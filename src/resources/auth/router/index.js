@@ -2,8 +2,8 @@ const Auth = () => import("./../views/Auth.vue");
 
 export default [
   {
-    path: '/auth',
+    path: "/auth",
     component: Auth,
-    name: 'Auth'
+    name: "Auth",
   },
 ];

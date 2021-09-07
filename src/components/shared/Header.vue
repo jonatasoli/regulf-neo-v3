@@ -128,10 +128,7 @@
           <!-- Profile dropdown -->
           <div class="ml-3 relative">
             <div v-if="!logged">
-                <router-link
-                  :to="{ name: 'Auth' }"
-                  >Access
-                </router-link>
+              <router-link :to="{ name: 'Auth' }">Access </router-link>
             </div>
             <div v-else>
               <button
@@ -202,7 +199,7 @@ export default {
       return (this.logged = !this.logged);
     },
     auth() {
-      return router.push({ name: 'auth' });
+      return router.push({ name: "auth" });
     },
   },
 };

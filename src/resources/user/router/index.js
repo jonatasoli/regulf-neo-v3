@@ -2,8 +2,8 @@ const Dashboard = () => import("./../views/Dashboard.vue");
 
 export default [
   {
-    path: '/dashboard',
+    path: "/dashboard",
     component: Dashboard,
-    name: 'Dashboard'
+    name: "Dashboard",
   },
 ];
