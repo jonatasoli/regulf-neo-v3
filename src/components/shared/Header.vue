@@ -83,10 +83,10 @@
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <a
-                href="#"
+              <router-link
+                :to="{ name: 'Dashboard' }"
                 class="
-                  bg-gray-900
+                  bg-green-900
                   text-white
                   px-3
                   py-2
@@ -95,7 +95,21 @@
                   font-medium
                 "
                 aria-current="page"
-                >Dashboard</a
+                >Dashboard</router-link
+              >
+              <router-link
+                :to="{ name: 'Home' }"
+                class="
+                  bg-green-900
+                  text-white
+                  px-3
+                  py-2
+                  rounded-md
+                  text-sm
+                  font-medium
+                "
+                aria-current="page"
+                >Search</router-link
               >
             </div>
           </div>
@@ -114,14 +128,10 @@
           <!-- Profile dropdown -->
           <div class="ml-3 relative">
             <div v-if="!logged">
-              <button
-                type="button"
-                class="bg-gray-800"
-                id="sign-up"
-                @click="login()"
-              >
-                SignUp
-              </button>
+                <router-link
+                  :to="{ name: 'Auth' }"
+                  >Access
+                </router-link>
             </div>
             <div v-else>
               <button
@@ -190,6 +200,9 @@ export default {
   methods: {
     login() {
       return (this.logged = !this.logged);
+    },
+    auth() {
+      return router.push({ name: 'auth' });
     },
   },
 };
