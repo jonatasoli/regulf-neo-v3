@@ -2,8 +2,12 @@
   <Header />
   <div>
     <h1>teste</h1>
-    <ais-instant-search :search-client="searchClient" index-name="results">
-      <ais-search-box />
+    <ais-instant-search :search-client="searchClient" index-name="revenue_entry">
+      <ais-search-box />    <ais-hits>
+      <div slot="item" slot-scope="{ item }">
+        <h2>{{ item.nombre }}</h2>
+      </div>
+    </ais-hits>
     </ais-instant-search>
   </div>
 </template>
@@ -16,9 +20,11 @@ import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
     apiKey: "7H4w7Z28OCCZUhywxqow3EdDKXTRXkNK", // Public search-only key
+    /* apiKey: "asd", */
     nodes: [
       {
         host: "api-direct.reguleque.cl",
+        /* host: "172.15.0.20", */
         port: "443",
         protocol: "https",
       },
