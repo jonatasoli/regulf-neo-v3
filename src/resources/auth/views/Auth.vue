@@ -18,7 +18,7 @@
         <div>
           <img class="mx-auto h-12 w-auto" src="@/assets/logo.png" alt="Logo" />
           <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            Please {{ texts.button }} your user
           </h2>
           <p class="mt-2 text-center text-sm text-gray-600">
             Or
@@ -27,14 +27,14 @@
               @click="register_form()"
               class="font-medium text-indigo-600 hover:text-indigo-500"
             >
-              register a new account.
+             {{ texts.toolbar }}
             </a>
           </p>
         </div>
         <form class="mt-8 space-y-6" action="#" method="POST">
           <input type="hidden" name="remember" value="true" />
           <div class="rounded-md shadow-sm -space-y-px">
-            <div v-if="signup">
+            <div v-if="isSignUp" :class="{ error: v$.form.name.$errors.length }">
               <label for="name" class="sr-only">Name</label>
               <input
                 id="name"
@@ -61,16 +61,19 @@
                   sm:text-sm
                 "
                 placeholder="Your Name"
+                v-model="v$.form.name.$model"
               />
+                <div class="input-errors" v-for="error of v$.form.name.$errors" :key="error.$uid">
+                    <div class="error-msg">{{ error.$message }}</div>
+                </div>
             </div>
-            <div>
+            <div :class="{ error: v$.form.email.$errors.length }">
               <label for="email-address" class="sr-only">Email address</label>
               <input
                 id="email-address"
                 name="email"
                 type="email"
                 autocomplete="email"
-                required=""
                 class="
                   appearance-none
                   rounded-none
@@ -90,9 +93,13 @@
                   sm:text-sm
                 "
                 placeholder="Email address"
+                v-model="v$.form.email.$model"
               />
+                <div class="input-errors" v-for="(error, index) of v$.form.email.$errors" :key="index">
+                    <div class="error-msg">{{ error.$message }}</div>
+                </div>
             </div>
-            <div>
+            <div :class="{ error: v$.form.password.$errors.length }">
               <label for="password" class="sr-only">Password</label>
               <input
                 id="password"
@@ -119,11 +126,15 @@
                   sm:text-sm
                 "
                 placeholder="Password"
+                v-model="v$.form.password.$model"
               />
+                <div class="input-errors" v-for="error of v$.form.password.$errors" :key="error.$uid">
+                    <div class="error-msg">{{ error.$message }}</div>
+                </div>
             </div>
           </div>
 
-          <div v-if="login" class="flex items-center justify-between">
+          <div v-if="isLogin" class="flex items-center justify-between">
             <div class="flex items-center">
               <input
                 id="remember-me"
@@ -145,7 +156,7 @@
 
             <div class="text-sm">
               <a
-                @click="forgot-password()"
+                @click="forgot - password()"
                 class="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 Forgot your password?
@@ -176,7 +187,7 @@
                 focus:ring-offset-2
                 focus:ring-indigo-500
               "
-              @click="login()"
+              @click="auth()"
             >
               <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                 <LockClosedIcon
@@ -184,7 +195,7 @@
                   aria-hidden="true"
                 />
               </span>
-              Sign in
+               {{ texts.button }}
             </button>
           </div>
         </form>
@@ -194,28 +205,104 @@
 </template>
 
 <script>
+import { mapStores, mapState, mapActions } from 'pinia'
 import { LockClosedIcon } from "@heroicons/vue/solid";
 import Header from "@/components/shared/Header.vue";
+import { useUserStore } from "@/store/index";
+import useVuelidate from '@vuelidate/core'
+import { required, helpers, email, minLength } from '@vuelidate/validators'
+
 
 export default {
   name: "Auth-Page",
+  setup: () => ({
+    v$: useVuelidate({$lazy: true, $autoDirty: true})
+  }),
   components: {
     LockClosedIcon,
     Header,
   },
   data() {
-    return {
-        signup: false,
-        login: true,
-    }
+      return {
+          isSignUp: false,
+          isLogin: true,
+          form: {
+            name: '',
+            email: '',
+            password: '',
+          },
+      }
+  },
+  computed: {
+    ...mapStores(useUserStore),
+    ...mapState(useUserStore, ['user']),
+    texts() {
+      return this.isLogin
+        ? { toolbar: "Register a new account", button: "login" }
+        : { toolbar: "Login your user", button: "register" };
+    },
   },
   methods: {
-    login() {
-      alert("logado")
+    ...mapState(useUserStore, ['getToken', 'getUser']),
+    ...mapActions(useUserStore, ['login', 'register']),
+    async auth() {
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect) {
+          alert("Credentials invalid")
+          console.log(isFormCorrect)
+          console.log(this.v$)
+          this.v$.$reset()
+          return
+      }
+      if (this.isLogin) {
+        await this.login()
+        console.log("logado", await this.user.token)
+        alert("logado");
+      }
+      else {
+        await this.register()
+        console.log("registrado", await this.user.token)
+        alert("registrado");
+      }
+      await this.getUser();
+      this.$router.push(
+          this.$route.query.redirect || { name: "Dashboard" }
+      );
     },
     register_form() {
-      this.signup = !this.signup
-      this.login = !this.login
+      this.isSignUp = !this.isSignUp;
+      this.isLogin = !this.isLogin;
+    },
+  },
+  validations() {
+    const validations = {
+      form: {
+        email: {
+           required: helpers.withMessage('This field cannot be empty', required),
+           email
+        },
+        password: {
+            required: helpers.withMessage('This field cannot be empty', required),
+            min: helpers.withMessage(
+      ({
+        $invalid,
+        $params,
+      }) => `This field haven't a min length of ${$params.min} so it is ${$invalid ? 'invalid' : 'valid'}`,
+            minLength(6),
+        ),
+        },
+      }
+      };
+    if (this.isLogin) {
+      return validations;
+    }
+    return {
+      form: {
+          ...validations.form,
+          name: {
+          required,
+        },
+      }
     }
   }
 };

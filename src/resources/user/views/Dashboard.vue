@@ -23,22 +23,7 @@
                 >
                   <dt class="text-sm font-medium text-gray-500">Full name</dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    Margot Foster
-                  </dd>
-                </div>
-                <div
-                  class="
-                    bg-white
-                    px-4
-                    py-5
-                    sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6
-                  "
-                >
-                  <dt class="text-sm font-medium text-gray-500">
-                    Application for
-                  </dt>
-                  <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    Backend Developer
+                  {{ getUser.name }}
                   </dd>
                 </div>
                 <div
@@ -53,7 +38,7 @@
                     Email address
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    margotfoster@example.com
+                  {{ getUser.mail }}
                   </dd>
                 </div>
                 <div
@@ -66,7 +51,7 @@
                 >
                   <dt class="text-sm font-medium text-gray-500">Subscribe</dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    Free User
+                  {{ getUser.subscribe }}
                   </dd>
                 </div>
                 <div
@@ -81,7 +66,7 @@
                     Expiration Date
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    Never
+                  {{ getUser.expiration }}
                   </dd>
                 </div>
                 <div
@@ -94,7 +79,7 @@
                 >
                   <dt class="text-sm font-medium text-gray-500">Limits</dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    * 10 searchs per day * 30 searchs per week
+                   {{ getUser.limits }}
                   </dd>
                 </div>
               </dl>
@@ -109,11 +94,26 @@
 
 <script>
 import Header from "@/components/shared/Header.vue";
+import { mapStores, mapState, mapActions } from 'pinia'
+import { useUserStore } from "@/store/index";
 
 export default {
   name: "User-Page",
   components: {
     Header,
   },
+  computed: {
+      ...mapState(useUserStore, ['getUser'])
+  },
+  methods: {
+    ...mapState(useUserStore, ['getToken', 'getUser', 'checkUserInformation']),
+    ...mapActions(useUserStore, ['login', 'register']),
+    getUserInformation() {
+        user = this.getUser()
+        console.log("user", user)
+        return user
+        /* return this.checkUserInformation() */
+    }
+  }
 };
 </script>

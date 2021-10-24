@@ -2,12 +2,16 @@
   <Header />
   <div>
     <h1>teste</h1>
-    <ais-instant-search :search-client="searchClient" index-name="revenue_entry">
-      <ais-search-box />    <ais-hits>
-      <div slot="item" slot-scope="{ item }">
-        <h2>{{ item.nombre }}</h2>
-      </div>
-    </ais-hits>
+    <ais-instant-search
+      :search-client="searchClient"
+      index-name="revenue_entry"
+    >
+      <ais-search-box />
+      <ais-hits>
+        <div slot="item" slot-scope="{ item }">
+          <h2>{{ item.nombre }}</h2>
+        </div>
+      </ais-hits>
     </ais-instant-search>
   </div>
 </template>
