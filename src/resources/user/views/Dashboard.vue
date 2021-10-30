@@ -23,7 +23,7 @@
                 >
                   <dt class="text-sm font-medium text-gray-500">Full name</dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {{ getUser.name }}
+                    {{ getUser.name }}
                   </dd>
                 </div>
                 <div
@@ -38,7 +38,7 @@
                     Email address
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {{ getUser.mail }}
+                    {{ getUser.mail }}
                   </dd>
                 </div>
                 <div
@@ -51,7 +51,7 @@
                 >
                   <dt class="text-sm font-medium text-gray-500">Subscribe</dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {{ getUser.subscribe }}
+                    {{ getUser.subscribe }}
                   </dd>
                 </div>
                 <div
@@ -66,7 +66,7 @@
                     Expiration Date
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {{ getUser.expiration }}
+                    {{ getUser.expiration }}
                   </dd>
                 </div>
                 <div
@@ -79,7 +79,7 @@
                 >
                   <dt class="text-sm font-medium text-gray-500">Limits</dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                   {{ getUser.limits }}
+                    {{ getUser.limits }}
                   </dd>
                 </div>
               </dl>
@@ -94,7 +94,7 @@
 
 <script>
 import Header from "@/components/shared/Header.vue";
-import { mapStores, mapState, mapActions } from 'pinia'
+import { mapStores, mapState, mapActions } from "pinia";
 import { useUserStore } from "@/store/index";
 
 export default {
@@ -103,17 +103,17 @@ export default {
     Header,
   },
   computed: {
-      ...mapState(useUserStore, ['getUser'])
+    ...mapState(useUserStore, ["getUser"]),
   },
   methods: {
-    ...mapState(useUserStore, ['getToken', 'getUser', 'checkUserInformation']),
-    ...mapActions(useUserStore, ['login', 'register']),
+    ...mapState(useUserStore, ["getToken", "getUser", "checkUserInformation"]),
+    ...mapActions(useUserStore, ["login", "register"]),
     getUserInformation() {
-        user = this.getUser()
-        console.log("user", user)
-        return user
-        /* return this.checkUserInformation() */
-    }
-  }
+      user = this.getUser();
+      console.log("user", user);
+      return user;
+      /* return this.checkUserInformation() */
+    },
+  },
 };
 </script>

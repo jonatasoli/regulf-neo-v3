@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const loginClient = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
   headers: { "Content-Type": "application/json" },
@@ -8,9 +7,9 @@ const loginClient = axios.create({
 
 const login = async (user) => {
   const response = await loginClient.post("/user/login", user);
+  console.log(response);
   return response.data;
 };
-
 
 const signup = async (user) => {
   const response = await loginClient.post("/user/create", user);
