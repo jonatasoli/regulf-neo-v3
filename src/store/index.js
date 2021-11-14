@@ -2,49 +2,10 @@ import { defineStore } from "pinia";
 import { useStorage } from "@vueuse/core";
 import authClient from "./../resources/user/services/auth-client";
 
-export const useUserStore = defineStore("user", {
+export const useUserStore = defineStore('user', {
   state: () => ({
-    user: useStorage([]),
+    user: useStorage('user', [])
   }),
-  actions: {
-        login: async(user) => {
-            try {
-                console.log(user)
-                const response = await authClient.login(user)
-                console.log(response)
-                this.user = response
-            } catch(error){
-                console.log(error)
-            }
-    },
-    register() {
-      this.user = {
-        id: 1,
-        name: "Steve Nash",
-        mail: "nash@nash.com",
-        subscribe: "Paid User",
-        expiration: "11-11-2111",
-        limits: "* unlimited searchs per day",
-        token: "yyyy",
-        token_type: "bearer",
-        role: 1
-      };
-    },
-    logout() {
-        this.user = "undefined"
-    },
-    checkUserInformation() {
-      console.log(user);
-      return {
-        id: 1,
-        name: "Mary Kate",
-        mail: "test@test.com",
-        subscribe: "Paid User",
-        expiration: "21-12-2022",
-        limits: "* unlimited searchs per day",
-      };
-    },
-  },
   getters: {
     getToken: (state) => {
       if (state.user) {
@@ -52,7 +13,44 @@ export const useUserStore = defineStore("user", {
       }
     },
     getUser: (state) => {
+      console.log("Estado do usuário")
+      console.log(state.user)
       return state.user;
     },
+  },
+  actions: {
+        async userLogin(user_data) {
+            try {
+                const response = await authClient.login(user_data)
+                this.user = response
+            } catch(error){
+                console.log("Erro na action")
+                console.log(error)
+            }
+        },
+        async userRegister(user_data) {
+            try {
+                const response = await authClient.signup(user_data)
+                this.user = response
+            } catch(error){
+                console.log("Erro na action")
+                console.log(error)
+            }
+        },
+        logout() {
+            this.user = "undefined"
+        },
+        checkUserInformation() {
+          console.log(user);
+          console.log("Não usar")
+          return {
+            id: 1,
+            name: "Mary Kate",
+            mail: "test@test.com",
+            subscribe: "Paid User",
+            expiration: "21-12-2022",
+            limits: "* unlimited searchs per day",
+          };
+        },
   },
 });

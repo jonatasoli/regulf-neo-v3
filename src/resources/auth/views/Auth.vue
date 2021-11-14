@@ -212,6 +212,11 @@
               </span>
               {{ texts.button }}
             </button>
+            <div v-if="isLoginError">
+                <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                    Credentials invalid!
+                </span>
+            </div>
           </div>
         </form>
       </div>
@@ -240,6 +245,7 @@ export default {
     return {
       isSignUp: false,
       isLogin: true,
+      isLoginError: false,
       form: {
         name: "",
         email: "",
@@ -258,7 +264,7 @@ export default {
   },
   methods: {
     ...mapState(useUserStore, ["getToken", "getUser"]),
-    ...mapActions(useUserStore, ["login", "register"]),
+    ...mapActions(useUserStore, ["userLogin", "userRegister"]),
     async auth() {
       const isFormCorrect = await this.v$.$validate();
       if (!isFormCorrect) {
@@ -266,6 +272,7 @@ export default {
         this.v$.$reset();
         return;
       }
+      this.isLoginError = false;
       console.log(this.v$)
       const _email = this.form.email;
       const  _password = this.form.password;
@@ -273,15 +280,22 @@ export default {
       if (this.isLogin) {
         const _login = {'email': _email, 'password': _password}
         console.log(_login)
-        await this.login(_login);
+        await this.userLogin(_login);
         console.log("logado", await this.user.token);
-        alert("logado");
       } else {
-        await this.register();
+        const _register = {
+            'email': _email,
+            'password': _password,
+            'name': _name
+        }
+        await this.userRegister(_register);
         console.log("registrado", await this.user.token);
-        alert("registrado");
       }
-      await this.getUser();
+      const _user = await this.getUser();
+      if (!_user) {
+        this.isLoginError = true;
+        return;
+      }
       this.$router.push(this.$route.query.redirect || { name: "Dashboard" });
     },
     register_form() {

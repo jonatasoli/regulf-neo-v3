@@ -72,7 +72,6 @@
         >
           <!-- Profile dropdown -->
           <div class="ml-3 relative">
-            {{user}}
             <div v-if="user=='undefined'">
               <router-link :to="{ name: 'Auth' }">Access </router-link>
             </div>

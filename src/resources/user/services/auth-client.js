@@ -7,7 +7,6 @@ const loginClient = axios.create({
 
 const login = async (user) => {
   const response = await loginClient.post("/user/login", user);
-  console.log(response);
   return response.data;
 };
 

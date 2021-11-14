@@ -27,4 +27,36 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  const privateAdminPages = ["/admdash"];
+  const privatePartnerPages = ["/dashboard"];
+
+  const authAdminRequired = privateAdminPages.includes(to.path);
+  const authUserRequired = privatePartnerPages.includes(to.path);
+  const ADMIN = 2;
+  const USER = 1;
+
+  const loggedIn = JSON.parse(localStorage.getItem("user"));
+  console.log("logado route", loggedIn);
+
+    if (
+      (authAdminRequired && !loggedIn) ||
+      (authUserRequired && !loggedIn)) {
+      next("/auth")
+      }
+    if (loggedIn) {
+      console.log("logado");
+      if (
+        (authAdminRequired && !(loggedIn.role == ADMIN)) ||
+        (authUserRequired && !(loggedIn.role == USER))
+      ) {
+        next("/auth");
+      }
+      next();
+    } else {
+      console.log("passou", authAdminRequired, typeof loggedIn);
+      next();
+    }
+});
+
 export default router;
