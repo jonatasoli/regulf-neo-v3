@@ -1,23 +1,35 @@
 <template>
   <Header />
   <div>
-    <h1>teste</h1>
+    <h1>Reguleque Search</h1>
     <ais-instant-search
       :search-client="searchClient"
       index-name="revenue_entry"
     >
+    <div class="left-panel">
+      <ais-clear-refinements />
+      <h2>Organismo</h2>
+      <ais-refinement-list attribute="nombre_organismo" searchable />
+      <ais-configure :hitsPerPage="8" />
+    </div>
+    <div class="right-panel">
       <ais-search-box />
       <ais-hits>
-        <div slot="item" slot-scope="{ item }">
+        <template v-slot:item="{ item }">
           <h2>{{ item.nombre }}</h2>
-        </div>
+        </template>
       </ais-hits>
-    </ais-instant-search>
+      <ais-pagination />
+    </div>
+  </ais-instant-search>
   </div>
 </template>
 
 <script>
 import Header from "@/components/shared/Header.vue";
+import algoliasearch from 'algoliasearch/lite';
+import { history as historyRouter } from 'instantsearch.js/es/lib/routers';
+import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings';
 
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 
@@ -49,6 +61,14 @@ export default {
   data() {
     return {
       searchClient,
+      searchClient2: algoliasearch(
+        'latency',
+        '7H4w7Z28OCCZUhywxqow3EdDKXTRXkNK'
+      ),
+      routing: {
+        router: historyRouter(),
+        stateMapping: simpleMapping(),
+      },
     };
   },
 };
@@ -96,8 +116,6 @@ body
 
 .right-panel
     margin-left: 260px
-
-
 .nav-custom
     width: 100%
     display: flex
@@ -253,4 +271,58 @@ body
 
 #hits-per-page
     margin-top: 15px
+
+*
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  -ms-box-sizing: border-box
+  box-sizing: border-box
+
+
+html
+  margin: 0
+  padding: 0
+  font-size: 16px
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  height: 100%
+
+main
+  display: flex
+
+
+aside,
+section
+  padding: 10px
+
+
+section
+  width: 100%
+
+
+.thank-you
+  font-size: 12px
+  text-align: center
+  margin-top: 20px
+
+.ais-Panel
+  margin-top: 20px
+
+.section-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 10px
+
+.sort-by
+  display: flex
+  align-items: center
+
+.sort-by label
+  margin-right: 5px
+
+footer
+  margin-top: 25px
+
+.no-results
+  text-align: center
 </style>

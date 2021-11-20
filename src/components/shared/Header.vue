@@ -43,6 +43,21 @@
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
               <router-link
+                v-if="user.role == 2"
+                :to="{ name: 'AdminDash' }"
+                class="
+                  bg-green-900
+                  text-white
+                  px-3
+                  py-2
+                  rounded-md
+                  text-sm
+                  font-medium
+                "
+                aria-current="page"
+                >Admin</router-link
+              >
+              <router-link
                 v-if="user != 'undefined'"
                 :to="{ name: 'Dashboard' }"
                 class="

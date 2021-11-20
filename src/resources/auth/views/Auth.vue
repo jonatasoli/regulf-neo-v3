@@ -300,9 +300,9 @@ export default {
       console.log("dados do user");
       console.log(_user.role);
       if (_user.role == ADMIN) {
-          console.log("Entrei nesse redirect")
-          this.$router.push({ name: "AdminDash" });
-          return;
+        console.log("Entrei nesse redirect");
+        this.$router.push({ name: "AdminDash" });
+        return;
       }
       this.$router.push(this.$route.query.redirect || { name: "Dashboard" });
     },
