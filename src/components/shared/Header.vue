@@ -2,13 +2,27 @@
   <nav class="nav-custom">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
-        <div v-if="user=='undefined'" class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        <div
+          v-if="user == 'undefined'"
+          class="absolute inset-y-0 left-0 flex items-center sm:hidden"
+        >
           <!-- Mobile menu button-->
           <button
-              class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-              @click="islogout()"
-              >
-                Logout
+            class="
+              bg-transparent
+              hover:bg-blue-500
+              text-blue-700
+              font-semibold
+              hover:text-white
+              py-2
+              px-4
+              border border-blue-500
+              hover:border-transparent
+              rounded
+            "
+            @click="islogout()"
+          >
+            Logout
           </button>
         </div>
         <div
@@ -28,7 +42,8 @@
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <router-link v-if="user!='undefined'"
+              <router-link
+                v-if="user != 'undefined'"
                 :to="{ name: 'Dashboard' }"
                 class="
                   bg-green-900
@@ -72,13 +87,24 @@
         >
           <!-- Profile dropdown -->
           <div class="ml-3 relative">
-            <div v-if="user=='undefined'">
+            <div v-if="user == 'undefined'">
               <router-link :to="{ name: 'Auth' }">Access </router-link>
             </div>
             <div v-else>
               <button
-              class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-              @click="islogout()"
+                class="
+                  bg-transparent
+                  hover:bg-blue-500
+                  text-blue-700
+                  font-semibold
+                  hover:text-white
+                  py-2
+                  px-4
+                  border border-blue-500
+                  hover:border-transparent
+                  rounded
+                "
+                @click="islogout()"
               >
                 Logout
               </button>
@@ -89,7 +115,7 @@
     </div>
 
     <!-- Mobile menu, show/hide based on menu state. -->
-    <div v-if="user!=[]" class="sm:hidden" id="mobile-menu">
+    <div v-if="user != []" class="sm:hidden" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <a
@@ -116,7 +142,6 @@
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "@/store/index";
 
-
 export default {
   name: "Header",
   data() {
@@ -134,11 +159,11 @@ export default {
     },
     islogout() {
       this.logout();
-      if (!this.user){
-        console.log("esta sem user")
+      if (!this.user) {
+        console.log("esta sem user");
       }
       return this.$router.push({ name: "Home" });
-    }
+    },
   },
 };
 </script>

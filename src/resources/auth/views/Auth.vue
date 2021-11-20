@@ -213,9 +213,9 @@
               {{ texts.button }}
             </button>
             <div v-if="isLoginError">
-                <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                    Credentials invalid!
-                </span>
+              <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                Credentials invalid!
+              </span>
             </div>
           </div>
         </form>
@@ -267,27 +267,28 @@ export default {
     ...mapActions(useUserStore, ["userLogin", "userRegister"]),
     async auth() {
       const isFormCorrect = await this.v$.$validate();
+      const ADMIN = 2;
       if (!isFormCorrect) {
         alert("Credentials invalid");
         this.v$.$reset();
         return;
       }
       this.isLoginError = false;
-      console.log(this.v$)
+      console.log(this.v$);
       const _email = this.form.email;
-      const  _password = this.form.password;
+      const _password = this.form.password;
       const _name = this.form.name;
       if (this.isLogin) {
-        const _login = {'email': _email, 'password': _password}
-        console.log(_login)
+        const _login = { email: _email, password: _password };
+        console.log(_login);
         await this.userLogin(_login);
         console.log("logado", await this.user.token);
       } else {
         const _register = {
-            'email': _email,
-            'password': _password,
-            'name': _name
-        }
+          email: _email,
+          password: _password,
+          name: _name,
+        };
         await this.userRegister(_register);
         console.log("registrado", await this.user.token);
       }
@@ -295,6 +296,13 @@ export default {
       if (!_user) {
         this.isLoginError = true;
         return;
+      }
+      console.log("dados do user");
+      console.log(_user.role);
+      if (_user.role == ADMIN) {
+          console.log("Entrei nesse redirect")
+          this.$router.push({ name: "AdminDash" });
+          return;
       }
       this.$router.push(this.$route.query.redirect || { name: "Dashboard" });
     },

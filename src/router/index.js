@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import AuthRoutes from "@/resources/auth/router";
 import UserRoutes from "@/resources/user/router";
-
+import AdminRoutes from "@/resources/admin/router";
 const routes = [
   {
     path: "/",
@@ -11,6 +11,7 @@ const routes = [
   },
   ...AuthRoutes,
   ...UserRoutes,
+  ...AdminRoutes,
   // {
   //   path: "/about",
   //   name: "About",
@@ -39,24 +40,21 @@ router.beforeEach((to, from, next) => {
   const loggedIn = JSON.parse(localStorage.getItem("user"));
   console.log("logado route", loggedIn);
 
+  if ((authAdminRequired && !loggedIn) || (authUserRequired && !loggedIn)) {
+    next("/auth");
+  }
+  if (loggedIn) {
     if (
-      (authAdminRequired && !loggedIn) ||
-      (authUserRequired && !loggedIn)) {
-      next("/auth")
-      }
-    if (loggedIn) {
-      console.log("logado");
-      if (
-        (authAdminRequired && !(loggedIn.role == ADMIN)) ||
-        (authUserRequired && !(loggedIn.role == USER))
-      ) {
-        next("/auth");
-      }
-      next();
-    } else {
-      console.log("passou", authAdminRequired, typeof loggedIn);
-      next();
+      (authAdminRequired && !(loggedIn.role == ADMIN)) ||
+      (authUserRequired && !(loggedIn.role == USER))
+    ) {
+      next("/auth");
     }
+    console.log(to);
+    next();
+  } else {
+    next();
+  }
 });
 
 export default router;
