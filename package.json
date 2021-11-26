@@ -30,6 +30,7 @@
     "vue-demi": "^0.11.4",
     "vue-instantsearch": "^4.1.1",
     "vue-router": "^4.0.0-0",
+    "vue3-date-time-picker": "^2.3.6",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {

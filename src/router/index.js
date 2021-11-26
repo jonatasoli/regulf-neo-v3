@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
       (authAdminRequired && !(loggedIn.role == ADMIN)) ||
       (authUserRequired && !(loggedIn.role == USER))
     ) {
-      console.log("Nao logado")
+      console.log("Nao logado");
       next("/auth");
     }
     console.log(to);

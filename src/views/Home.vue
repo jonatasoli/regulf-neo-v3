@@ -6,30 +6,30 @@
       :search-client="searchClient"
       index-name="revenue_entry"
     >
-    <div class="left-panel">
-      <ais-clear-refinements />
-      <h2>Organismo</h2>
-      <ais-refinement-list attribute="nombre_organismo" searchable />
-      <ais-configure :hitsPerPage="8" />
-    </div>
-    <div class="right-panel">
-      <ais-search-box />
-      <ais-hits>
-        <template v-slot:item="{ item }">
-          <h2>{{ item.nombre }}</h2>
-        </template>
-      </ais-hits>
-      <ais-pagination />
-    </div>
-  </ais-instant-search>
+      <div class="left-panel">
+        <ais-clear-refinements />
+        <h2>Organismo</h2>
+        <ais-refinement-list attribute="nombre_organismo" searchable />
+        <ais-configure :hitsPerPage="8" />
+      </div>
+      <div class="right-panel">
+        <ais-search-box />
+        <ais-hits>
+          <template v-slot:item="{ item }">
+            <h2>{{ item.nombre }}</h2>
+          </template>
+        </ais-hits>
+        <ais-pagination />
+      </div>
+    </ais-instant-search>
   </div>
 </template>
 
 <script>
 import Header from "@/components/shared/Header.vue";
-import algoliasearch from 'algoliasearch/lite';
-import { history as historyRouter } from 'instantsearch.js/es/lib/routers';
-import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings';
+import algoliasearch from "algoliasearch/lite";
+import { history as historyRouter } from "instantsearch.js/es/lib/routers";
+import { simple as simpleMapping } from "instantsearch.js/es/lib/stateMappings";
 
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 
@@ -62,8 +62,8 @@ export default {
     return {
       searchClient,
       searchClient2: algoliasearch(
-        'latency',
-        '7H4w7Z28OCCZUhywxqow3EdDKXTRXkNK'
+        "latency",
+        "7H4w7Z28OCCZUhywxqow3EdDKXTRXkNK"
       ),
       routing: {
         router: historyRouter(),
