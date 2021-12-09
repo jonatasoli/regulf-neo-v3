@@ -1,24 +1,66 @@
+<script>
+import { mapActions } from "pinia";
+import { useAdminStore } from "@/store/index";
+
+export default {
+  name: "CreateSubscriber",
+  data() {
+    return {
+      date: null,
+      newSubscriber: {
+        name: "",
+        limit: "",
+        quantity: 1,
+      },
+    };
+  },
+  methods: {
+    ...mapActions(useAdminStore, ["saveSubscribe"]),
+    newSubscribe() {
+      console.log(this.newSubscriber);
+      this.saveSubscribe(this.newSubscriber);
+      this.newSubscriber = {
+        name: "",
+        limit: "",
+        Quantity: 1,
+      };
+    },
+  },
+};
+</script>
+
 <template>
   <div class="container flex justify-center">
-      <div class="p-4 shadow-md rounded-md text-left" style="max-width: 400px">
+    <div class="p-4 shadow-md rounded-md text-left" style="max-width: 400px">
       <label class="block">
         <span class="text-gray-700">Name</span>
-        <input class="form-input mt-1 block w-full" placeholder="Jane Doe" />
+        <input
+          v-model="newSubscriber.name"
+          class="form-input mt-1 block w-full"
+          placeholder="Subscribe Name"
+        />
       </label>
 
       <label class="block">
         <span class="text-gray-700">Limit</span>
-        <input class="form-input mt-1 block w-full" placeholder="Jane Doe" />
+        <input
+          v-model="newSubscriber.limit"
+          class="form-input mt-1 block w-full"
+          placeholder="Subscribe description"
+        />
       </label>
 
       <label class="block">
         <span class="text-gray-700">Qty per Week</span>
-        <input class="form-input mt-1 block w-full" placeholder="Jane Doe" />
+        <input
+          v-model="newSubscriber.quantity"
+          type="number"
+          class="form-input mt-1 block w-full"
+          placeholder="Subscriber Quantity"
+        />
       </label>
 
-
       <div class="flex mt-6">
-
         <button
           class="
             text-purple-500
@@ -40,7 +82,7 @@
             transition-all
             duration-150
           "
-          @click="saveSubscribe"
+          @click="newSubscribe"
           type="button"
         >
           Save
@@ -49,22 +91,3 @@
     </div>
   </div>
 </template>
-
-<script>
-    import Datepicker from 'vue3-date-time-picker';
-    import 'vue3-date-time-picker/dist/main.css'
-export default {
-  name: "CreateSubscriber",
-  components: { Datepicker },
-  data() {
-      return {
-          date: null,
-      }
-  },
-  methods: {
-    saveSubscribe() {
-      
-    }
-  }
-}
-</script>

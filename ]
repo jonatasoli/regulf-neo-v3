@@ -1,82 +1,14 @@
-<script>
-import Datepicker from "vue3-date-time-picker";
-import "vue3-date-time-picker/dist/main.css";
-import { mapState, mapActions } from "pinia";
-import { useAdminStore } from "@/store/index";
-
-export default {
-  name: "CreateUser",
-  components: { Datepicker },
-  data() {
-    return {
-      date: null,
-      userList: null,
-      radioAccountType: {
-        text: "free",
-        text: "paid",
-      },
-      newUser: {
-        name: "",
-        email: "",
-        accountType: "",
-        expire: undefined,
-      },
-    };
-  },
-  computed: {
-    ...mapState(useAdminStore, ["getUsers"]),
-  },
-  methods: {
-    ...mapActions(useAdminStore, ["saveUser"]),
-    createNewUser() {
-      const _user = {
-        name: this.newUser.name,
-        email: this.newUser.email,
-        subscribe: this.newUser.accountType,
-        plan: "save plan",
-        expire: this.newUser.expire,
-      };
-      this.saveUser(_user);
-    },
-    resetForm() {
-      this.newUser = {
-        name: "",
-        email: "",
-        accountType: "",
-        expire: undefined,
-      };
-    },
-    fillForm(user) {
-      this.newUser = {
-        name: user.name,
-        email: user.email,
-        accountType: user.accountType,
-        expire: user.expire,
-      };
-    },
-  },
-};
-</script>
-
 <template>
   <div class="container flex justify-center">
-    <div class="p-4 shadow-md rounded-md text-left" style="max-width: 400px">
+      <div class="p-4 shadow-md rounded-md text-left" style="max-width: 400px">
       <label class="block">
         <span class="text-gray-700">Name</span>
-        <input
-          v-model="newUser.name"
-          class="form-input mt-1 block w-full"
-          placeholder="Digit user name"
-        />
+        <input v-model="newUser.name" class="form-input mt-1 block w-full" placeholder="Digit user name" />
       </label>
 
       <label class="block">
         <span class="text-gray-700">Email</span>
-        <input
-          v-model="newUser.email"
-          class="form-input mt-1 block w-full"
-          placeholder="Digit user e-amail"
-        />
+        <input v-model="newUser.email" class="form-input mt-1 block w-full" placeholder="Digit user e-amail" />
       </label>
 
       <div class="mt-4">
@@ -107,10 +39,11 @@ export default {
 
       <label class="block mt-4">
         <span class="text-gray-700">Expire</span>
-        <Datepicker v-model="newUser.expire"></Datepicker>
+        <Datepicker v-model="date"></Datepicker>
       </label>
 
       <div class="flex mt-6">
+
         <button
           @click="createNewUser"
           class="
@@ -141,3 +74,42 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import Datepicker from 'vue3-date-time-picker';
+import 'vue3-date-time-picker/dist/main.css'
+import { mapState, mapActions } from "pinia";
+import { useAdminStore } from "@/store/index";
+
+
+export default {
+  name: "CreateUser",
+  components: { Datepicker },
+  data() {
+      return {
+          date: null,
+          userList: null,
+          radioAccountType: {
+            text: "free",
+            text: "paid"
+            },
+          newUser: {
+            name: "",
+            email: "",
+            accountType: "",
+            expire: date,
+        }
+      };
+  },
+  computed: {
+    ...mapState(useAdminStore, ["getUsers"]),
+  },
+  methods: {
+    ...mapActions(useAdminStore, ["saveUser"]),
+    createNewUser() {
+      console.log("New User", this.newUser);
+      this.saveUser(this.newUser);
+    }
+  },
+}
+</script>

@@ -107,7 +107,11 @@ export default {
   },
   methods: {
     ...mapState(useUserStore, ["getToken", "getUser", "checkUserInformation"]),
-    ...mapActions(useUserStore, ["login", "register"]),
+    ...mapActions(useUserStore, [
+      "saveUser",
+      "saveSubscribe",
+      "savePaywallMessage",
+    ]),
     getUserInformation() {
       user = this.getUser();
       console.log("user", user);
